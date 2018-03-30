@@ -26,8 +26,7 @@ import static com.spoor.LogLevel.WARNING;
 /**
  * <p>Essential APIs for working with Spoor.
  * Spoor is a mini android log system ,which save logs to local file.
- * It has simple APIs, runs quietly and its memory usage is low.
- * Spoor has good performance in concurrent environment.</p>
+ * Its memory usage is low and spoor has good performance in multi-thread.
  *
  *<p>Spoor's IO is based on Okio.</p>
  *
