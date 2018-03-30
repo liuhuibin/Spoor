@@ -135,8 +135,8 @@ public final class Spoor {
 
     /**
      * save a log
-     * @param level
-     * @param log
+     * @param level 日志的 Level
+     * @param log  需要记录的日志
      */
     public void log(@NonNull LogLevel level, @NonNull String log) {
         if (Util.isEmpty(log)) return;
