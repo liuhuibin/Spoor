@@ -55,7 +55,7 @@ public final class Spoor {
         logFile = new File(ctx.getExternalFilesDir(DEFAULT_LOG_DIRECTORY_NAME),logFileName);
         logsQueue = new LinkedBlockingQueue<>();
         logExecutor = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60, TimeUnit.SECONDS,
-                new SynchronousQueue<>(), Util.threadFactory("Spoor Log Executor", false));
+                new SynchronousQueue<Runnable>(), Util.threadFactory("Spoor Log Executor", false));
 
         appLabel = Util.getAppName(ctx);
         versionName = Util.getVersionName(ctx);
@@ -109,21 +109,25 @@ public final class Spoor {
             }
         }
 
-        new Thread(() -> {
-            while (true) {
-                try {
-                    Log log = logsQueue.take();
-                    if (bufferedSink!=null) {
-                        bufferedSink.writeUtf8(log.toString());
-                        bufferedSink.flush();
-                    }
-                    LogPool.recycle(log);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Log log = logsQueue.take();
+                        if (bufferedSink!=null) {
+                            bufferedSink.writeUtf8(log.toString());
+                            bufferedSink.flush();
+                        }
+                        LogPool.recycle(log);
 
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                } catch (Exception ignore) {}
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    } catch (Exception ignore) {}
+                }
             }
         }).start();
+
     }
 
     public void closeLogService() {
@@ -215,16 +219,17 @@ public final class Spoor {
      * ----------------------------------------
      * Spoor start at 18/3/27 16:43:28
      * Name:SpoorDemo Version:1.0.0 Code:102
+     * https://github.com/liuhuibin/Spoor
      * ----------------------------------------
      *  }
      *  </pre>
      */
     private void initStartLog() {
-        // TODO: 18/3/27 add github URL
         try {
             bufferedSink.writeUtf8("---------------------------------------------------------------------------\n");
             bufferedSink.writeUtf8("Spoor start at " + new SimpleDateFormat("yy/MM/dd HH:mm:ss").format(System.currentTimeMillis())+ "\n");
             bufferedSink.writeUtf8("Name:" + appLabel + "  Version:" + versionName + " Code:" + versionCode + "\n");
+            bufferedSink.writeUtf8("https://github.com/liuhuibin/Spoor\n");
             bufferedSink.writeUtf8("---------------------------------------------------------------------------\n");
             bufferedSink.flush();
 

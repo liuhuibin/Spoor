@@ -5,7 +5,7 @@ android {
     compileSdkVersion 26
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 14
         targetSdkVersion 26
         versionCode 1
         versionName "1.0.0"
@@ -21,10 +21,6 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 
     lintOptions {
         abortOnError false
