@@ -90,6 +90,10 @@ public final class Spoor {
     }
 
 
+    /**
+     * Do not call this method by user
+     * @param ctx context
+     */
     public static synchronized void init(Context ctx) {
 
         if (!isInit.get()) {
