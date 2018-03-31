@@ -6,7 +6,7 @@ Its memory usage is low and spoor has good performance in multi-thread.
 ### Download
 ```gradle
     dependencies {
-                implementation 'com.kedacom.spoor:spoor:1.0.0'
+                implementation 'com.kedacom.spoor:spoor:1.1.0'
     }
 ```
 
@@ -16,7 +16,6 @@ Its memory usage is low and spoor has good performance in multi-thread.
 ```Java
 
 //Must call Spoor#init first ,
-Spoor.init(getApplicationContext());
 
 Spoor.getInstance().i("Info log!");
 Spoor.getInstance().log(LogLevel.INFO, "Info log!->by log");
@@ -31,3 +30,7 @@ Spoor.getInstance().e("Error log!");
 Spoor.getInstance().log(LogLevel.ERROR, "Error log!->by log");
 
 ```
+
+### Spoor manager pic
+
+![Spoor Manager](https://github.com/liuhuibin/images/blob/master/spoor_manager_1.png)
