@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Spoor Library</string>
+
+    <string name="toolbar_title">Spoor Manager</string>
+
+    <string-array name="SpoorLevel">
+        <item>INFO</item>
+        <item>DEBUG</item>
+        <item>WARNING</item>
+        <item>ERROR</item>
+    </string-array>
 </resources>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.SpoorActivity"
+    android:background="@color/french_gray">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:title="@string/toolbar_title"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="@android:color/white"
+        app:navigationIcon="@drawable/ic_arrow_back_white">
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_launcher"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="16dp"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log File Path"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:background="@android:color/white"
+        android:layout_marginTop="16dp"
+        android:padding="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_log_file_path"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:background="@android:color/white"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:padding="10dp"/>
+
+    <Button
+        android:id="@+id/btn_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SHARE"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SET MINIMUM LOG LEVEL"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        android:background="@android:color/white"
+        android:layout_marginTop="32dp"
+        android:padding="10dp"/>
+
+    <Spinner
+        android:id="@+id/spinner_spoor_level"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/SpoorLevel"
+        android:spinnerMode="dialog"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/white"
+        android:padding="8dp"/>
+
+</LinearLayout>

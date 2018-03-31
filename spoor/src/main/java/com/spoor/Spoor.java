@@ -50,9 +50,13 @@ public final class Spoor {
     private String versionName;
     private int versionCode;
 
+    public final String logFilePath;
+
+
 
     private Spoor(@NonNull Context ctx, @NonNull String logFileName) {
         logFile = new File(ctx.getExternalFilesDir(DEFAULT_LOG_DIRECTORY_NAME),logFileName);
+        logFilePath = logFile.getAbsolutePath();
         logsQueue = new LinkedBlockingQueue<>();
         logExecutor = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60, TimeUnit.SECONDS,
                 new SynchronousQueue<Runnable>(), Util.threadFactory("Spoor Log Executor", false));
@@ -62,10 +66,19 @@ public final class Spoor {
         versionCode = Util.getVersionNo(ctx);
     }
 
+    public String getLogFilePath() {
+        if (Util.isEmpty(logFilePath)) throw new IllegalStateException("You must call Spoor#init first");
+        return logFilePath;
+    }
 
-    public static void setMinLevel(@Nullable LogLevel minLevel) {
+
+    public void setMinLevel(@Nullable LogLevel minLevel) {
         //if minLevel is null, all level's log will be saved
         Spoor.minLevel = minLevel;
+    }
+
+    public LogLevel getMinLevel() {
+        return minLevel;
     }
 
     private static Spoor sInstance;
@@ -113,6 +126,7 @@ public final class Spoor {
             @Override
             public void run() {
                 while (true) {
+                    confirmLogFileExist();
                     try {
                         Log log = logsQueue.take();
                         if (bufferedSink!=null) {
@@ -128,6 +142,25 @@ public final class Spoor {
             }
         }).start();
 
+    }
+
+    /**
+     * if log file is deleted by user,reset it
+     */
+    private void confirmLogFileExist() {
+        if (logFile!=null && !logFile.exists()) {
+            try {
+                logFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                bufferedSink = Okio.buffer(Okio.appendingSink(logFile));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void closeLogService() {
