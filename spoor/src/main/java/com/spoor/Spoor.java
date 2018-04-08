@@ -1,6 +1,10 @@
 package com.spoor;
 
+import android.content.ContentProvider;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -94,7 +98,7 @@ public final class Spoor {
      * Do not call this method by user
      * @param ctx context
      */
-    public static synchronized void init(Context ctx) {
+    private static synchronized void init(Context ctx) {
 
         if (!isInit.get()) {
             if (sInstance==null) {
@@ -167,11 +171,6 @@ public final class Spoor {
         }
     }
 
-    public void closeLogService() {
-        if (logExecutor!=null && !logExecutor.isShutdown()) {
-            logExecutor.shutdown();
-        }
-    }
 
     /**
      * save a log
@@ -263,11 +262,11 @@ public final class Spoor {
      */
     private void initStartLog() {
         try {
-            bufferedSink.writeUtf8("---------------------------------------------------------------------------\n");
+            bufferedSink.writeUtf8("----------------------------------------------------------------------------------\n");
             bufferedSink.writeUtf8("Spoor start at " + new SimpleDateFormat("yy/MM/dd HH:mm:ss").format(System.currentTimeMillis())+ "\n");
             bufferedSink.writeUtf8("Name:" + appLabel + "  Version:" + versionName + " Code:" + versionCode + "\n");
             bufferedSink.writeUtf8("https://github.com/liuhuibin/Spoor\n");
-            bufferedSink.writeUtf8("---------------------------------------------------------------------------\n");
+            bufferedSink.writeUtf8("----------------------------------------------------------------------------------\n");
             bufferedSink.flush();
 
         } catch (IOException e) {
@@ -288,6 +287,42 @@ public final class Spoor {
         @Override
         public void run() {
             logsQueue.add(log);
+        }
+    }
+
+    public static class InitContentProvider extends ContentProvider {
+        @Override
+        public boolean onCreate() {
+            Spoor.init(getContext());
+            return true;
+        }
+
+        @Nullable
+        @Override
+        public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        public String getType(@NonNull Uri uri) {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+            return null;
+        }
+
+        @Override
+        public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+            return 0;
+        }
+
+        @Override
+        public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
+            return 0;
         }
     }
 

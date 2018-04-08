@@ -2,12 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.spoor">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application>
         <activity android:name=".activity.SpoorActivity"
             android:theme="@style/SpoorTheme"></activity>
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.spoor.fileprovider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -17,7 +19,7 @@
 
         <provider
             android:authorities="${applicationId}.cp"
-            android:name=".provider.InitContentProvider"
+            android:name=".Spoor$InitContentProvider"
             android:exported="false"/>
 
     </application>
